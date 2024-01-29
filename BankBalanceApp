@@ -1,0 +1,86 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener; 
+
+// New class called BankBalanceApp
+public class BankBalanceApp extends JFrame{
+	private double balance = 0.0;
+	
+	//Creating a new JPanel with GridBagLayout
+	public BankBalanceApp() {
+		JPanel panel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		
+	//Creating a label and text field for balance, deposit and withdraw
+	JLabel balanceLabel = new JLabel("Balance: ");
+	JTextField balanceField = new JTextField(12); // self notes
+	balanceField.setEditable(false);
+	JLabel depositLabel = new JLabel("Deposit: ");
+	JTextField depositField = new JTextField(12);
+	JLabel withdrawLabel = new JLabel("Withdraw: ");
+	JTextField withdrawField = new JTextField(12);
+	
+	//Creating buttons for deposit and withdraw
+	JButton depositButton = new JButton("Deposit");
+	JButton withdrawButton = new JButton("Withdraw");
+	
+	//Add action listeners for the buttons
+	depositButton.addActionListener(new ActionListener(){
+		
+		public void actionPerformed(ActionEvent e) {
+			double depositAmount = Double.parseDouble(depositField.getText());
+			balance += depositAmount;
+			balanceField.setText(String.valueOf(balance));
+		}
+	});
+	
+	withdrawButton.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			double withdrawAmount = Double.parseDouble(withdrawField.getText());
+			if (withdrawAmount <= balance) {
+				balance -= withdrawAmount;
+				balanceField.setText(String.valueOf(balance));
+			}else {
+				JOptionPane.showMessageDialog(null, "Insuffient Balance");
+				
+			}
+		}
+	});
+	
+	//Adding the Componets to the panel
+	c.gridx = 0;
+	c.gridy = 0;
+	panel.add(balanceLabel, c);
+	c.gridx = 1;
+	panel.add(balanceField, c);
+	c.gridx = 0;
+	c.gridy = 1;
+	panel.add(depositLabel, c);
+	c.gridx = 1;
+	panel.add(depositField, c);
+	c.gridx =2;
+	panel.add(depositButton, c);
+	c.gridx =0;
+	c.gridy =2;
+	panel.add(withdrawLabel, c);
+	c.gridx =1;
+	panel.add(withdrawField, c);
+	c.gridx =2;
+	panel.add(withdrawButton, c);
+	
+	//the panel to the frame
+	this.add(panel, BorderLayout.CENTER);
+	this.setTitle("Colorado Bank Balance Application");
+	this.setSize(400,200);
+	this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+}
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				new BankBalanceApp().setVisible(true);
+			}
+		});
+	}
+}
+			
